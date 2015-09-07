@@ -1,5 +1,8 @@
 import processing.video.*;
-float[] distances;
+int[] numbers = new int[3];
+//numbers[0] = 90;  // Assign value to first element in the array
+//numbers[1] = 150; // Assign value to second element in the array
+
 
 Capture cam;
 
@@ -22,6 +25,9 @@ void setup() {
     cam = new Capture(this, cameras[0]);
     cam.start();
   }
+  for(int i =0; i < 3; i++){
+   numbers[i] = 10*i;
+  }
   
 }
 
@@ -38,9 +44,9 @@ void draw() {
 
   noStroke();
 
+ println(numbers);
 
 
-println(distances);
 
   for (int x = 0; x < width; x = x+200) {
     for (int y = 0; y < height; y = y+200) {
