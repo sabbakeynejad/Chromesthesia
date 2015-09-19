@@ -1,5 +1,5 @@
 import processing.video.*;
-
+int[] numbers = new int [1];
 Capture cam;
 
 Col myCol1;
@@ -44,24 +44,11 @@ void draw() {
   }
   
   image(cam, 0, 0);
-  // The following does the same, and is faster when just drawing the image
-  // without any additional resizing, transformations, or tint.
-  //set(0, 0, cam);
-  // color c = get(mouseX,mouseY);
-  //println(c);
+
 
   noStroke();
 
 
-
-  //for (int x = 0; x < width; x = x+200) {
-
-  //  color c = get(x, 20);
-  //  text(color(c), x, 20 + 60);
-  //  fill(c);
-  //  rect(x, 20, 40, 40);
-
-  //}
   
   myCol1.drive();
   myCol2.drive();
