@@ -67,40 +67,76 @@ class BumpyInstrument implements Instrument
   }
 }
 
-// setup is run once at the beginning
-void setup()
-{
-  // initialize the drawing window
-  size( 500, 500, P2D );
+///////////////////////////////////
 
-  // initialize the minim and out objects
+// create all of the variables that will need to be accessed in
+// more than one methods (setup(), draw(), stop()).
+
+
+
+// Camera and video 
+import processing.video.*;
+int[] numbers = new int [1];
+Capture cam;
+
+Col myCol1;
+Col myCol2;
+Col myCol3;
+Col myCol4;
+Col myCol5;
+
+void setup() {
+  size(500, 500);
+  // Parameters go inside the parentheses when the object is constructed.
+  String[] cameras = Capture.list();
+
+  myCol1 = new Col(color(255, 0, 0), 0, 250, 2);  
+  myCol2 = new Col(color(255, 0, 0), 100, 250, 2);
+  myCol3 = new Col(color(255, 0, 0), 200, 250, 2);
+  myCol4 = new Col(color(255, 0, 0), 300, 250, 2);
+  myCol5 = new Col(color(255, 0, 0), 400, 250, 2);
+
+
+  if (cameras.length == 0) {
+    println("There are no cameras available for capture.");
+    exit();
+  } else {
+    println("Available cameras:");
+    for (int i = 0; i < cameras.length; i++) {
+      //    println(cameras[i]);
+    }
+
+    // The camera can be initialized directly using an 
+    // element from the array returned by list():
+    cam = new Capture(this, cameras[4]);
+    cam.start();
+  }
+
+
   minim = new Minim( this );
   out = minim.getLineOut();
-
-  // play several notes of different base frequencies and lengths
-  // using the BumpyInstrument and its envelope
-  //out.playNote( 0.5, 2.6, new BumpyInstrument( "A4", 0.5 ) );
-  //out.playNote( 2.5, 1.6, new BumpyInstrument( "F4", 0.5 ) );
-  //out.playNote( 3.6, 0.9, new BumpyInstrument( "D4", 0.5 ) );
-
   mousePos = new PVector (mouseX, mouseY);
   bpf = new BandPass(440, 20, out.sampleRate());
   out.addEffect(bpf);
 }
 
-// draw is run many times
-void draw()
-{
-  background( 0 );
-  stroke( 255 );
+void draw() {
+
+  //display Camera if you find it
+  if (cam.available() == true) {
+    cam.read();
+  }
+
+  image(cam, 0, 0);
 
 
+  //Sound CLass Draw
   mousePos.x = mouseX;
 
 
   for (int i = 1; i < 10; i++) {
-    fill(255, 0, 0);
-    rect(50*i, 0, 50, height); 
+    noFill();
+    //rect(50*i, 0, 50, height); 
     println(50*i);
   }
 
@@ -157,6 +193,14 @@ void draw()
     line( x1, 50 + out.left.get(i)*50, x2, 50 + out.left.get(i+1)*50);
     line( x1, 150 + out.right.get(i)*50, x2, 150 + out.right.get(i+1)*50);
   }
+
+
+  //Drive each color object
+  myCol1.drive();
+  myCol2.drive();
+  myCol3.drive();
+  myCol4.drive();
+  myCol5.drive();
 }
 
 void playNotes1() {
@@ -174,45 +218,45 @@ void playNotes1() {
 }
 void playNotes2() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "C2", 0.8 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "E2", 1.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "G2", 0.8 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A2", 0.8 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "C2", 2.8 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "E2", 1.8 ) );
 }
 void playNotes3() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "D2", 0.8 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "F2", 1.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "A2", 0.8 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 1.2 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "C1", 12.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 0.1 ) );
 }
 void playNotes4() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "F2", 0.8 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "A2", 1.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "C2", 0.8 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 1.2 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "B3", 3.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "G1", 2.1 ) );
 }
 void playNotes5() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "G1", 0.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "B2", 0.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "D2", 0.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 0.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A2", 0.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A2", 0.6 ) );
 }
 void playNotes6() {
 
   out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 1.2 ) );
   out.playNote( 0.1, 0.3, new BumpyInstrument( "C1", 0.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "E1", 0.1 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "G1", 0.1 ) );
 }
 void playNotes7() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "B2", 0.1 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "D2", 2.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "F4", 0.1 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A1", 30.0 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "B1", 30.0 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "G1", 20.0 ) );
 }
 void playNotes8() {
 
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "G2", 0.3 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "B2", 1.6 ) );
-  out.playNote( 0.1, 0.3, new BumpyInstrument( "D2", 0.3 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "A3", 1.3 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "C3", 2.6 ) );
+  out.playNote( 0.1, 0.3, new BumpyInstrument( "G3", 0.3 ) );
 }
 void playNotes9() {
 
@@ -236,9 +280,9 @@ void playNotes10() {
 void mouseMoved()
 {
   // map the mouse position to the range [100, 10000], an arbitrary range of passBand frequencies
-  float passBand = map(200+mouseY, 0, height, 100, 2200);
+  float passBand = map(200+mouseY, 0, height, 100, 2000);
   bpf.setFreq(passBand);
-  float bandWidth = map(200+mouseY, 0, height, 50, 600);
+  float bandWidth = map(200+mouseY, 0, height, 50, 500);
   bpf.setBandWidth(bandWidth);
   // prints the new values of the coefficients in the console
   //bpf.printCoeff();
