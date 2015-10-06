@@ -1,7 +1,6 @@
 # Chromesthesia
 A musical instrument that translates RGB values into sound
 
-[alt tag](https://pbs.twimg.com/media/CPhwYBlXAAA1Nro.jpg)
 ![ScreenShot](https://pbs.twimg.com/media/CPhwYBlXAAA1Nro.jpg)
 
 
